@@ -1,0 +1,4 @@
+{
+    "cph.language": "javascript",
+    "cph.runCommand": "node {filename}"
+  }
