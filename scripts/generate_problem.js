@@ -34,10 +34,10 @@ fetch(url, {
     const fileName = `${problemNumber}_${safeTitle}.js`;
     const jsContent = `const problemNum = ${problemNumber};
 const input = require('fs')
-  .readFileSync(process.platform === "linux" ? "/dev/stdin" : "./testcase/" + problemNum + ".txt")
-  .toString()
-  .trim()
-  .split('\\n');
+    .readFileSync(process.platform === "linux" ? "/dev/stdin" : "./testcase/" + problemNum + ".txt")
+    .toString()
+    .trim()
+    .split('\\n');
 let output = [];
 
 console.log(output.join('\\n'));
