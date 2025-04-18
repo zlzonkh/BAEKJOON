@@ -4,7 +4,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "generate": "node scripts/generate_problem.js"
+    "generate": "node scripts/generate_problem.js",
+    "commit": "node scripts/commit_problem.js"
   },
   "repository": {
     "type": "git",
