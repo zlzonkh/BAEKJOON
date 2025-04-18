@@ -1,37 +1,62 @@
 const fs = require('fs');
 const path = require('path');
+const fetch = require('node-fetch');
+const cheerio = require('cheerio');
 
-const [,, problemNum, problemName, folderPath] = process.argv;
+const problemNumber = process.argv[2];
 
-if (!problemNum || !problemName || !folderPath) {
-  console.error('사용법: node generate_problem.js [문제번호] [문제이름] [폴더경로]');
+if (!problemNumber) {
+  console.error('❌ 문제 번호를 입력하세요. 예: node scripts/generate_problem.js 2738');
   process.exit(1);
 }
 
-const filename = `${problemNum}_${problemName}.js`;
-const filePath = path.join(folderPath, filename);
-const testcasePath = path.join('testcase', `${problemNum}.txt`);
+const url = `https://www.acmicpc.net/problem/${problemNumber}`;
+fetch(url, {
+  headers: {
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'
+  }
+})
+  .then(res => res.text())
+  .then(body => {
+    const $ = cheerio.load(body);
+    const title = $('#problem_title').text().trim();
+    const sampleInput = $('#sample-input-1').text().trim();
 
-if (fs.existsSync(filePath)) {
-  console.warn('⚠️ 이미 해당 문제 파일이 존재합니다.');
-} else {
-  const template = `const problemNum = ${problemNum};
+    if (!title || !sampleInput) {
+      console.error('❌ 문제 제목 또는 예제 입력을 찾을 수 없습니다.');
+      process.exit(1);
+    }
+    console.log(title);
+
+    const safeTitle = title
+      .replace(/\s+/g, '_')
+      .replace(/[^가-힣\w_]/g, '');
+    const fileName = `${problemNumber}_${safeTitle}.js`;
+    const jsContent = `const problemNum = ${problemNumber};
 const input = require('fs')
-    .readFileSync(process.platform === "linux" ? "/dev/stdin" : "./testcase/" + problemNum + ".txt")
-    .toString()
-    .trim()
-    .split('\\n');
-const output = [];
+  .readFileSync(process.platform === "linux" ? "/dev/stdin" : "./testcase/" + problemNum + ".txt")
+  .toString()
+  .trim()
+  .split('\\n');
+let output = [];
 
 console.log(output.join('\\n'));
 `;
-  fs.writeFileSync(filePath, template);
-  console.log(`✅ 문제 파일 생성됨: ${filePath}`);
-}
 
-if (!fs.existsSync(testcasePath)) {
-  fs.writeFileSync(testcasePath, '');
-  console.log(`✅ 테스트케이스 파일 생성됨: ${testcasePath}`);
-} else {
-  console.log(`ℹ️ 테스트케이스 파일 이미 존재: ${testcasePath}`);
-}
+    // JS 파일 생성
+    fs.writeFileSync(fileName, jsContent);
+    console.log(`✅ JS 파일 생성됨: ${fileName}`);
+
+    // 테스트케이스 폴더 및 파일 생성
+    const testcaseDir = path.join(__dirname, '..', 'testcase');
+    if (!fs.existsSync(testcaseDir)) {
+      fs.mkdirSync(testcaseDir);
+    }
+
+    const testcasePath = path.join(testcaseDir, `${problemNumber}.txt`);
+    fs.writeFileSync(testcasePath, sampleInput);
+    console.log(`✅ 테스트케이스 파일 생성됨: ${testcasePath}`);
+  })
+  .catch(err => {
+    console.error('❌ 문제를 가져오는 중 오류 발생:', err);
+  });
