@@ -21,7 +21,9 @@ const input = require('fs')
     .toString()
     .trim()
     .split('\\n');
-let output = [];
+const output = [];
+
+console.log(output.join('\\n'));
 `;
   fs.writeFileSync(filePath, template);
   console.log(`✅ 문제 파일 생성됨: ${filePath}`);
