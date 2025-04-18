@@ -18,5 +18,9 @@
     "url": "https://github.com/zlzonkh/BAEKJOON/issues"
   },
   "homepage": "https://github.com/zlzonkh/BAEKJOON#readme",
-  "description": ""
+  "description": "",
+  "dependencies": {
+    "cheerio": "^1.0.0",
+    "node-fetch": "^3.3.2"
+  }
 }

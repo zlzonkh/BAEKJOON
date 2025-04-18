@@ -1,0 +1,14 @@
+# Node.js 의존성
+node_modules/
+
+# 잠재적인 시스템 파일
+.DS_Store
+Thumbs.db
+
+# 로그 파일
+*.log
+
+# Mac/Linux 임시 파일
+*.swp
+*.swo
+*~
