@@ -1,0 +1,21 @@
+{
+  "name": "baekjoon",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "generate": "node scripts/generate_problem.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zlzonkh/BAEKJOON.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/zlzonkh/BAEKJOON/issues"
+  },
+  "homepage": "https://github.com/zlzonkh/BAEKJOON#readme",
+  "description": ""
+}
