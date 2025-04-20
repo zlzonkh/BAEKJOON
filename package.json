@@ -5,7 +5,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "generate": "node scripts/generate_problem.js",
-    "commit": "node scripts/commit_problem.js"
+    "commit": "node scripts/commit_problem.js",
+    "gn": "node scripts/generate_problem.js",
+    "cm": "node scripts/commit_problem.js"
   },
   "repository": {
     "type": "git",
