@@ -17,7 +17,7 @@ if (isPath) {
 } else {
   // 문제번호만 입력된 경우 → 폴더 전체에서 검색
   const problemNum = arg;
-  const root = path.join(__dirname, '..', '새싹');
+  const root = path.join(__dirname, '..');
   const allFiles = [];
 
   const walk = (dir) => {
