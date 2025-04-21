@@ -7,7 +7,7 @@ const [K, N] = require('fs')
     .map(Number);
 let output = 0;
 
-if(N == 1) console.log(-1);
+if(N === 1) console.log(-1);
 else {
   output = Math.ceil((K * N) / (N - 1));
   if((output - K) * N < output) output += 1;
