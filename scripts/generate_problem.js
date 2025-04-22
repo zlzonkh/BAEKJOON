@@ -19,14 +19,18 @@ fetch(url, {
   .then(res => res.text())
   .then(body => {
     const $ = cheerio.load(body);
-    const title = $('#problem_title').text().trim();
-    const sampleInput = $('#sample-input-1').text().trim();
+    let title = $('#problem_title').text().trim();
+    let sampleInput = $('#sample-input-1').text().trim();
 
-    if (!title || !sampleInput) {
-      console.error('❌ 문제 제목 또는 예제 입력을 찾을 수 없습니다.');
-      process.exit(1);
+    if (!title) {
+      console.error('❌ 문제 제목을 찾을 수 없습니다. 문제 제목을 수동으로 입력해주세요.');
+      title = '';
     }
-    console.log(title);
+    
+    if (!sampleInput){
+      console.error('❌ 예제 입력을 찾을 수 없습니다. 예제 입력을 수동으로 입력해주세요.');
+      sampleInput = '';
+    }
 
     const safeTitle = title
       .replace(/\s+/g, '_')
