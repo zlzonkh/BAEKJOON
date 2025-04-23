@@ -5,17 +5,14 @@ const N = Number(
     .toString()
     .trim()
 );
-const layerFloorTable = [0, 1, 2];
-
-let layerFloor = function(n){
-    if(n >= layerFloorTable.length){
-        layerFloorTable.push(layerFloorTable[n - 1] + 6 * (n - 2));
-    }
-    return layerFloorTable[n];
-}
 
 let layer = 1;
-while(layerFloor(layer) <= N){
+let layerFloor = 1;
+
+while(N >= layerFloor){
+    if(layer === 1) layerFloor++
+    else layerFloor = (layerFloor + (6 * (layer - 1)));
+
     layer++;
 }
 
