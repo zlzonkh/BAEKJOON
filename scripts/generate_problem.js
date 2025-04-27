@@ -1,50 +1,58 @@
-const fs = require('fs');
-const path = require('path');
-const fetch = require('node-fetch');
-const cheerio = require('cheerio');
+const fs = require("fs");
+const path = require("path");
+const fetch = require("node-fetch");
+const cheerio = require("cheerio");
 
 const problemNumber = process.argv[2];
 
 if (!problemNumber) {
-  console.error('❌ 문제 번호를 입력하세요. 예: node scripts/generate_problem.js 2738');
+  console.error(
+    "❌ 문제 번호를 입력하세요. 예: node scripts/generate_problem.js 2738"
+  );
   process.exit(1);
 }
 
 const url = `https://www.acmicpc.net/problem/${problemNumber}`;
 fetch(url, {
   headers: {
-    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'
-  }
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)",
+  },
 })
-  .then(res => res.text())
-  .then(body => {
+  .then((res) => res.text())
+  .then((body) => {
     const $ = cheerio.load(body);
-    let title = $('#problem_title').text().trim();
-    let sampleInput = $('#sample-input-1').text().trim();
+    let title = $("#problem_title").text().trim();
+    let sampleInput = $("#sample-input-1").text().trim();
 
     if (!title) {
-      console.error('❌ 문제 제목을 찾을 수 없습니다. 문제 제목을 수동으로 입력해주세요.');
-      title = '';
-    }
-    
-    if (!sampleInput){
-      console.error('❌ 예제 입력을 찾을 수 없습니다. 예제 입력을 수동으로 입력해주세요.');
-      sampleInput = '';
+      console.error(
+        "❌ 문제 제목을 찾을 수 없습니다. 문제 제목을 수동으로 입력해주세요."
+      );
+      title = "";
     }
 
-    const safeTitle = title
-      .replace(/\s+/g, '_')
-      .replace(/[^가-힣\w_]/g, '');
+    if (!sampleInput) {
+      console.error(
+        "❌ 예제 입력을 찾을 수 없습니다. 예제 입력을 수동으로 입력해주세요."
+      );
+      sampleInput = "";
+    }
+
+    const safeTitle = title.replace(/\s+/g, "_").replace(/[^가-힣\w_]/g, "");
     const fileName = `${problemNumber}_${safeTitle}.js`;
     const jsContent = `const problemNum = ${problemNumber};
-const input = require('fs')
-    .readFileSync(process.platform === "linux" ? "/dev/stdin" : "./testcase/" + problemNum + ".txt")
-    .toString()
-    .trim()
-    .split('\\n');
-let output = [];
+const input = require("fs")
+  .readFileSync(
+    process.platform === "linux"
+      ? "/dev/stdin"
+      : "./testcase/" + problemNum + ".txt"
+  )
+  .toString()
+  .trim()
+  .split("\\n");
+const output = [];
 
-console.log(output.join('\\n'));
+console.log(output.join("\\n"));
 `;
 
     // JS 파일 생성
@@ -52,7 +60,7 @@ console.log(output.join('\\n'));
     console.log(`✅ JS 파일 생성됨: ${fileName}`);
 
     // 테스트케이스 폴더 및 파일 생성
-    const testcaseDir = path.join(__dirname, '..', 'testcase');
+    const testcaseDir = path.join(__dirname, "..", "testcase");
     if (!fs.existsSync(testcaseDir)) {
       fs.mkdirSync(testcaseDir);
     }
@@ -61,6 +69,6 @@ console.log(output.join('\\n'));
     fs.writeFileSync(testcasePath, sampleInput);
     console.log(`✅ 테스트케이스 파일 생성됨: ${testcasePath}`);
   })
-  .catch(err => {
-    console.error('❌ 문제를 가져오는 중 오류 발생:', err);
+  .catch((err) => {
+    console.error("❌ 문제를 가져오는 중 오류 발생:", err);
   });
