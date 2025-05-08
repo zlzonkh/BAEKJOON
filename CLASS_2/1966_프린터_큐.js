@@ -1,0 +1,74 @@
+const problemNum = 1966;
+const input = require("fs")
+  .readFileSync(
+    process.platform === "linux"
+      ? "/dev/stdin"
+      : "./testcase/" + problemNum + ".txt"
+  )
+  .toString()
+  .trim()
+  .split("\n");
+const output = [];
+
+class Node {
+  constructor(index, priority) {
+    this.index = index;
+    this.priority = priority;
+    this.next = null;
+    this.prev = null;
+  }
+}
+
+class Circle {
+  constructor() {
+    this.head = null;
+  }
+
+  push(index, priority) {
+    const newNode = new Node(index, priority);
+    if (this.head === null) {
+      this.head = newNode;
+      newNode.next = newNode;
+      newNode.prev = newNode;
+    } else {
+      newNode.next = this.head;
+      newNode.prev = this.head.prev;
+      this.head.prev.next = newNode;
+      this.head.prev = newNode;
+    }
+  }
+
+  pop(node) {
+    if (this.head === this.head.next) {
+      this.head = null;
+    } else {
+      node.prev.next = node.next;
+      node.next.prev = node.prev;
+    }
+    return node.index;
+  }
+
+  print() {
+    let iterator = this.head.next;
+    let maxPriortyNode = this.head;
+    while (iterator !== this.head) {
+      if (iterator.priority > maxPriortyNode.priority)
+        maxPriortyNode = iterator;
+      iterator = iterator.next;
+    }
+    return this.pop(maxPriortyNode);
+  }
+}
+
+for (let i = 1; i < input.length; i++) {
+  const [N, M] = input[i].split(" ").map(Number);
+  const printQueue = input[i + 1].split(" ").map(Number);
+  const circle = new Circle();
+
+  for (let j = 0; j < N; j++) circle.push(i, printQueue[i]);
+  for (let j = 0; j < N; j++) {
+    if (M === circle.print()) output.push(j);
+  }
+}
+
+console.log(output.join("\n"));
