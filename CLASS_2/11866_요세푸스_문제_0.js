@@ -22,29 +22,25 @@ class Node {
 class Circle {
   constructor() {
     this.head = null;
-    this.tail = null;
   }
 
   push(value) {
     const newNode = new Node(value);
     if (this.head === null) {
       this.head = newNode;
-      this.tail = newNode;
       newNode.next = newNode;
       newNode.prev = newNode;
     } else {
-      this.tail.next = newNode;
       newNode.next = this.head;
-      newNode.prev = this.tail;
+      newNode.prev = this.head.prev;
+      this.head.prev.next = newNode;
       this.head.prev = newNode;
-      this.tail = newNode;
     }
   }
 
   pop(node) {
-    if (this.head === this.tail) {
+    if (this.head === this.head.next) {
       this.head = null;
-      this.tail = null;
     } else {
       node.prev.next = node.next;
       node.next.prev = node.prev;
@@ -59,7 +55,7 @@ for (let i = 1; i <= N; i++) {
   circle.push(i);
 }
 
-let curNode = circle.tail;
+let curNode = circle.head.prev;
 
 for (let i = 0; i < N; i++) {
   for (let j = 0; j < K; j++) curNode = curNode.next;
