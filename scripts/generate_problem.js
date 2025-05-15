@@ -4,6 +4,7 @@ const fetch = require("node-fetch");
 const cheerio = require("cheerio");
 
 const problemNumber = process.argv[2];
+const mode = process.argv[3]; // js or cpp
 
 if (!problemNumber) {
   console.error(
@@ -39,8 +40,25 @@ fetch(url, {
     }
 
     const safeTitle = title.replace(/\s+/g, "_").replace(/[^가-힣\w_]/g, "");
-    const fileName = `${problemNumber}_${safeTitle}.js`;
-    const jsContent = `const problemNum = ${problemNumber};
+    const fileBase = `${problemNumber}_${safeTitle}`;
+
+    if (mode === "cpp") {
+      const cppContent = `#include <iostream>
+using namespace std;
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    freopen("./testcase/${problemNumber}.txt", "r", stdin);
+
+    return 0;
+}
+`;
+      fs.writeFileSync(`${fileBase}.cpp`, cppContent);
+      console.log(`✅ C++ 파일 생성됨: ${fileBase}.cpp`);
+    } else {
+      const jsContent = `const problemNum = ${problemNumber};
 const input = require("fs")
   .readFileSync(
     process.platform === "linux"
@@ -54,17 +72,14 @@ const output = [];
 
 console.log(output.join("\\n"));
 `;
+      fs.writeFileSync(`${fileBase}.js`, jsContent);
+      console.log(`✅ JS 파일 생성됨: ${fileBase}.js`);
+    }
 
-    // JS 파일 생성
-    fs.writeFileSync(fileName, jsContent);
-    console.log(`✅ JS 파일 생성됨: ${fileName}`);
-
-    // 테스트케이스 폴더 및 파일 생성
     const testcaseDir = path.join(__dirname, "..", "testcase");
     if (!fs.existsSync(testcaseDir)) {
       fs.mkdirSync(testcaseDir);
     }
-
     const testcasePath = path.join(testcaseDir, `${problemNumber}.txt`);
     fs.writeFileSync(testcasePath, sampleInput);
     console.log(`✅ 테스트케이스 파일 생성됨: ${testcasePath}`);
