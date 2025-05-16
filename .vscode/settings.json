@@ -1,4 +1,8 @@
 {
-    "cph.language": "javascript",
-    "cph.runCommand": "node {filename}"
+  "cph.language": "javascript",
+  "cph.runCommand": "node {filename}",
+  "files.associations": {
+    "iostream": "cpp",
+    "xiosbase": "cpp"
   }
+}

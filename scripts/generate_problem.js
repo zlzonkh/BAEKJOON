@@ -49,14 +49,13 @@ using namespace std;
 int main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
-
-    freopen("./testcase/${problemNumber}.txt", "r", stdin);
-
-    return 0;
+    #ifndef ONLINE_JUDGE
+    freopen("./testcase/10871.txt", "r", stdin);
+    #endif
 }
 `;
-      fs.writeFileSync(`${fileBase}.cpp`, cppContent);
-      console.log(`✅ C++ 파일 생성됨: ${fileBase}.cpp`);
+      fs.writeFileSync(`${problemNumber}.cpp`, cppContent);
+      console.log(`✅ C++ 파일 생성됨: ${problemNumber}.cpp`);
     } else {
       const jsContent = `const problemNum = ${problemNumber};
 const input = require("fs")
