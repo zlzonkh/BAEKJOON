@@ -50,7 +50,7 @@ int main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
     #ifndef ONLINE_JUDGE
-    freopen("./testcase/10871.txt", "r", stdin);
+    freopen("./testcase/${problemNumber}.txt", "r", stdin);
     #endif
 }
 `;
