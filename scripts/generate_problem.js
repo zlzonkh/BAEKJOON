@@ -43,7 +43,7 @@ fetch(url, {
     const fileBase = `${problemNumber}_${safeTitle}`;
 
     if (mode === "cpp") {
-      const cppContent = `#include <iostream>
+      const cppContent = `#include <bits/stdc++.h>
 using namespace std;
 
 int main() {
