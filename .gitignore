@@ -12,3 +12,6 @@ Thumbs.db
 *.swp
 *.swo
 *~
+
+# exe 파일
+*.exe
