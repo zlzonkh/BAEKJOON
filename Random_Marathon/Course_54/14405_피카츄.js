@@ -1,3 +1,5 @@
+// replaceAll이라는 기능으로 간단하게 풀 수 있다
+
 const problemNum = 14405;
 const input = require("fs")
   .readFileSync(
