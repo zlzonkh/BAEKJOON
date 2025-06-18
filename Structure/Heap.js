@@ -69,6 +69,6 @@ class Heap {
   }
 
   _heapRule(child, parent) {
-    return this.compare >= 0;
+    return this.compare(child, parent) >= 0;
   }
 }
