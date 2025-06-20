@@ -1,12 +1,12 @@
 {
-    "cph.language": "javascript",
-    "cph.runCommand": "node {filename}",
-    "files.associations": {
-        "iostream": "cpp",
-        "xiosbase": "cpp"
-    },
-    "[javascript]": {
-        "editor.insertSpaces": true,
-        "editor.tabSize": 2
-    }
+  "cph.language": "javascript",
+  "cph.runCommand": "node {filename}",
+  "files.associations": {
+    "iostream": "cpp",
+    "xiosbase": "cpp"
+  },
+  "[javascript]": {
+    "editor.insertSpaces": true,
+    "editor.tabSize": 2
+  }
 }
