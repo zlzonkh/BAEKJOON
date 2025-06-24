@@ -22,9 +22,16 @@ function compare(A, B) {
           (A[i] < A[j] && B[i] < B[j])
         )
       ) {
-        break;
+        return false;
       }
     }
+  }
+  return true;
+}
+
+for (let i = 0; i < M; i++) {
+  for (let j = i + 1; j < M; j++) {
+    if (compare(spaces[i], spaces[j])) output++;
   }
 }
 
