@@ -1,3 +1,5 @@
+require("fs");
+
 class Heap {
   constructor(compareFn) {
     this.heap = [];
