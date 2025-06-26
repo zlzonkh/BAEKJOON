@@ -25,4 +25,13 @@ class Queue {
   size() {
     return this.tail - this.head;
   }
+
+  toString() {
+    let str = "";
+    for (let i = this.head; i < this.tail; i++) {
+      str += this.items[i];
+      str += ", ";
+    }
+    return str;
+  }
 }
