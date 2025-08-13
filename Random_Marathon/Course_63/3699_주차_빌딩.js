@@ -13,24 +13,18 @@ const output = [];
 let cursor = 1;
 for (let testCase = 0; testCase < T; testCase++) {
   const [h, l] = input[cursor].split(" ").map(Number);
-  const cars = new Array(h * l).fill(null);
   let time = 0;
-  let pos = Array(h).fill(0);
   for (let i = 0; i < h; i++) {
-    input[cursor + i + 1]
-      .split(" ")
-      .map(Number)
-      .forEach((e, j) => {
-        if (e !== -1) cars[e] = [i, j];
-      });
+    let pos = 0;
+    let floor = input[cursor + i + 1].split(" ").map(Number);
+    let cars = floor.filter((e) => e !== -1).sort((a, b) => a - b);
+    time += 10 * 2 * i * cars.length;
+    for (let e of cars) {
+      const carPos = floor.indexOf(e);
+      time += Math.min(Math.abs(pos - carPos), l - Math.abs(pos - carPos)) * 5;
+      pos = carPos;
+    }
   }
-  cars
-    .filter((e) => e !== null)
-    .forEach((e) => {
-      time += Math.min(Math.abs(pos[e[0]] - e[1]), l - e[1] + pos[e[0]]) * 5;
-      pos[e[0]] = e[1];
-      time += 10 * e[0] * 2;
-    });
   cursor += h + 1;
   output.push(time);
 }
